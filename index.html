@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML 5 Boilerplate</title>
+
+    <style>
+
+    </style>
+
+  </head>
+  <body>
+
+    <div class="content">Stuff goes here</div>
+    <input class="input" type="text" id="myinput" name="myinput" />
+    <button class="submitButton">Submit</button>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script>
+
+        $(document).ready(function() {
+            console.log("ready");
+
+            $.get("http://127.0.0.1:8000/api/quotes/get/", function(resp, status){
+              console.log(resp);  
+              $(".content").html(resp[resp.length - 1].content);
+            });
+
+            $(".submitButton").on("click", function() {
+                console.log("button clicked");
+
+                let inputVal = $(".input").val();
+                console.log(inputVal);
+
+                $.post("http://127.0.0.1:8000/api/quotes/add/",
+                {
+                  content: inputVal,
+                },
+                function(resp, status){
+                  $(".content").html(resp.content);
+                });
+
+
+            });
+        });
+
+    </script>
+  </body>
+</html>
